@@ -40,4 +40,12 @@ public class ClientService implements IClientService {
         return client.getCommandes();
 
     }
+
+    @Override
+    public void deleteUser(long id) {
+        Client client = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Client non trouvé"));
+        repository.delete(client);
+    }
+
 }

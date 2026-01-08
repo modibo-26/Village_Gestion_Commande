@@ -15,4 +15,6 @@ public interface IClientService {
 
     List<Commande> getAllCommandes(long id);
 
+    void deleteUser(long id);
+
 }

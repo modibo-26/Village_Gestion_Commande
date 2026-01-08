@@ -4,6 +4,8 @@ import com.GestionCommande.Entity.Client;
 import com.GestionCommande.Entity.Commande;
 import com.GestionCommande.Service.ClientService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class ClientController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Client ajouterClient(@Valid @RequestBody Client client) {
         service.ajouterClient(client);
         return client;
@@ -37,6 +40,18 @@ public class ClientController {
     @GetMapping("/{id}/commande")
     public List<Commande> getAllCommandes(@PathVariable long id) {
         return service.getAllCommandes(id);
+    }
+
+    @GetMapping("/debug")
+    public String debug() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        return "User: " + auth.getName() + " | Roles: " + auth.getAuthorities();
+    }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteUser(@PathVariable long id) {
+        service.deleteUser(id);
     }
 
 }

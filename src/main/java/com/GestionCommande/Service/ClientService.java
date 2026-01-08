@@ -1,6 +1,7 @@
 package com.GestionCommande.Service;
 
 import com.GestionCommande.Entity.Client;
+import com.GestionCommande.Entity.Commande;
 import com.GestionCommande.Repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,13 @@ public class ClientService implements IClientService {
     public Client recupererClient(long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client non trouvé"));
+    }
+
+    @Override
+    public List<Commande> getAllCommandes(long id) {
+        Client client = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Client non trouvé"));
+        return client.getCommandes();
+
     }
 }

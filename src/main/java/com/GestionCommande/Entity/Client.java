@@ -1,11 +1,13 @@
 package com.GestionCommande.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Entity
 public class Client {
@@ -23,6 +25,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonIgnore
     private List<Commande> commandes;
 
     public Client() {
@@ -58,8 +61,14 @@ public class Client {
         this.email = email;
     }
 
+
     public List<Commande> getCommandes() {
         return commandes;
+    }
+
+    public Stream<Long> getCommandesID() {
+        if (commandes == null) {return null;}
+        return commandes.stream().map(Commande::getId);
     }
 
     public void setCommandes(List<Commande> commandes) {

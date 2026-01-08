@@ -1,6 +1,7 @@
 package com.GestionCommande.Controller;
 
 import com.GestionCommande.Entity.Client;
+import com.GestionCommande.Entity.Commande;
 import com.GestionCommande.Service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,9 @@ public class ClientController {
         return service.recupererClient(id);
     }
 
-
+    @GetMapping("/{id}/commande")
+    public List<Commande> getAllCommandes(@PathVariable long id) {
+        return service.getAllCommandes(id);
+    }
 
 }
